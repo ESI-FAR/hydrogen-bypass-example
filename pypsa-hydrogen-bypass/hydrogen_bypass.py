@@ -105,6 +105,17 @@ def simulate_bypass():
     ax.legend(loc=0)
     fig.savefig('bypass-power.png', bbox_inches='tight')
 
+    ### Plot hydrogen production/storage/consumption
+    fig, ax = plt.subplots()
+    to_plot = (-n2.links_t.p0['fuel cell']) - n2.links_t.p1['electrolysis']
+    barplot = to_plot.plot.bar(label='net storage (dis)charge', ax=ax, legend=False)
+
+    ax.plot(barplot.xaxis.major.locator.locs, n2.stores_t.e, label='hydrogen storage')
+    ax.axhline(y=0, color='black', linewidth=.5)
+    ax.set_ylabel('Storage')
+    ax.legend(loc=0)
+    fig.savefig('bypass-storage.png', bbox_inches='tight')
+
 
 if __name__ == '__main__':
     simulate_pre_bypass()
