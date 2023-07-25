@@ -2,17 +2,12 @@ locations:
     windlocation:
         techs:
             offwind:
-            electrolyzer:
     city:
         techs:
             gas:
             demandpower:
                 constraints:
                     resource: file=demand.csv
-            fuelcell:
-    storage:
-        techs:
-            hydrogenstorage:
 
 links:
     windlocation,city:
@@ -20,9 +15,3 @@ links:
             actransmission:
                 constraints:
                     energy_cap_max: 400
-    windlocation,storage:
-        techs:
-            hydrogentransmission:
-    storage,city:
-        techs:
-            hydrogentransmission:

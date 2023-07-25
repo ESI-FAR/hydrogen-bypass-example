@@ -34,39 +34,3 @@ techs:
             name: 'actransmission'
             parent: transmission
             carrier: power
-
-    hydrogenstorage:
-        essentials:
-            name: 'hydrogenstorage'
-            parent: storage
-            carrier_in: hydrogen
-            carrier_out: hydrogen
-        constraints:
-            energy_cap_max: 1000000
-            storage_cap_max: 1000000
-
-    electrolyzer:
-        essentials:
-            name: 'electrolyzer'
-            parent: conversion
-            carrier_out: hydrogen
-            carrier_in: power
-        constraints:
-            energy_cap_max: 350  # after efficiency is applied, 500 pre-conversion
-            energy_eff: 0.7
-
-    fuelcell:
-        essentials:
-            name: 'fuelcell'
-            parent: conversion
-            carrier_out: power
-            carrier_in: hydrogen
-        constraints:
-            energy_cap_max: 250  # after efficiency is applied, 500 pre-conversion
-            energy_eff: 0.5
-
-    hydrogentransmission:
-        essentials:
-            name: 'hydrogentransmission'
-            parent: transmission
-            carrier: hydrogen

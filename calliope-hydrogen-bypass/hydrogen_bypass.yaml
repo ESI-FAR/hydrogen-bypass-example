@@ -2,6 +2,16 @@ import:
     - 'model_config/locations.yaml'
     - 'model_config/techs.yaml'
 
+
+scenarios:
+    hydrogen_bypass: ["hydrogen_storage_and_production"]
+
+
+overrides:
+    hydrogen_storage_and_production:
+        import: ['model_config/hydrogen.yaml']
+
+
 model:
     name: 'Hydrogen Bypass model'
     timeseries_data_path: 'timeseries_data'
@@ -10,5 +20,3 @@ model:
 run:
     solver: glpk
     objective_options: {'cost_class': {"monetary": 1} }
-    #mode: operate
-    #ensure_feasibility: true  # Switches on the "unmet demand" constraint
