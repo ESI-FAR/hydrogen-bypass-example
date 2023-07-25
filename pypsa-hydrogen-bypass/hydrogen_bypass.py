@@ -1,5 +1,4 @@
 import pypsa
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -76,12 +75,16 @@ def simulate_pre_bypass():
     n1 = pre_bypass_network()
     n1.optimize(solver_name='glpk')
 
+    plot_pre_bypass_power(n1)
+
+
+def plot_pre_bypass_power(n):
     fig, ax = plt.subplots()
-    barplot = n1.generators_t.p.plot.bar(stacked=True, ax=ax)
+    barplot = n.generators_t.p.plot.bar(stacked=True, ax=ax)
 
     # naive plotting does not work: plot and barplot via pandas cause conflicting x-axis
     # n1.loads_t.p_set.plot(ylabel='MW', ax=ax)
-    ax.plot(barplot.xaxis.major.locator.locs, n1.loads_t.p_set['electricity demand'], label='electricity demand')
+    ax.plot(barplot.xaxis.major.locator.locs, n.loads_t.p_set['electricity demand'], label='electricity demand')
     ax.set_ylabel('MW')
     ax.legend(loc=0)
     fig.savefig('pre-bypass.png', bbox_inches='tight')
@@ -91,26 +94,33 @@ def simulate_bypass():
     n2 = bypass_network()
     n2.optimize(solver_name='glpk')
 
-    ### Plot power production/consumption
+    plot_bypass_power(n2)
+    plot_hydrogen_storage(n2)
+
+
+def plot_bypass_power(n):
+    """Plot power production/consumption"""
     fig, ax = plt.subplots()
-    to_plot = n2.generators_t.p.copy()
-    to_plot['fuel cell'] = -n2.links_t.p1['fuel cell']  # plot provided power to city as positive
-    to_plot['electrolysis'] = -n2.links_t.p0['electrolysis']  # plot consumed power from wind as negative
+    to_plot = n.generators_t.p.copy()
+    to_plot['fuel cell'] = -n.links_t.p1['fuel cell']  # plot provided power to city as positive
+    to_plot['electrolysis'] = -n.links_t.p0['electrolysis']  # plot consumed power from wind as negative
     barplot = to_plot[["Gas", "fuel cell", "Offwind", "electrolysis"]].plot.bar(stacked=True, ax=ax, legend=False)
 
     # naive plotting does not work: plot and barplot via pandas cause conflicting x-axis
     # n2.loads_t.p_set.plot(ylabel='MW', ax=ax)
-    ax.plot(barplot.xaxis.major.locator.locs, n2.loads_t.p_set['electricity demand'], color='black', label='electricity demand')
+    ax.plot(barplot.xaxis.major.locator.locs, n.loads_t.p_set['electricity demand'], color='black', label='electricity demand')
     ax.set_ylabel('MW')
     ax.legend(loc=0)
     fig.savefig('bypass-power.png', bbox_inches='tight')
 
-    ### Plot hydrogen production/storage/consumption
+
+def plot_hydrogen_storage(n):
+    """Plot hydrogen production/storage/consumption"""
     fig, ax = plt.subplots()
-    to_plot = (-n2.links_t.p0['fuel cell']) - n2.links_t.p1['electrolysis']
+    to_plot = (-n.links_t.p0['fuel cell']) - n.links_t.p1['electrolysis']
     barplot = to_plot.plot.bar(label='net storage (dis)charge', ax=ax, legend=False)
 
-    ax.plot(barplot.xaxis.major.locator.locs, n2.stores_t.e, label='hydrogen storage')
+    ax.plot(barplot.xaxis.major.locator.locs, n.stores_t.e, label='hydrogen storage')
     ax.axhline(y=0, color='black', linewidth=.5)
     ax.set_ylabel('Storage')
     ax.legend(loc=0)
