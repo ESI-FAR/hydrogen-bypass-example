@@ -1,0 +1,14 @@
+import:
+    - 'model_config/locations.yaml'
+    - 'model_config/techs.yaml'
+
+model:
+    name: 'Hydrogen Bypass model'
+    timeseries_data_path: 'timeseries_data'
+
+
+run:
+    solver: glpk
+    objective_options: {'cost_class': {"monetary": 1} }
+    #mode: operate
+    #ensure_feasibility: true  # Switches on the "unmet demand" constraint
