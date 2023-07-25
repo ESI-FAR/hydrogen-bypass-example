@@ -87,5 +87,25 @@ def simulate_pre_bypass():
     fig.savefig('pre-bypass.png', bbox_inches='tight')
 
 
+def simulate_bypass():
+    n2 = bypass_network()
+    n2.optimize(solver_name='glpk')
+
+    ### Plot power production/consumption
+    fig, ax = plt.subplots()
+    to_plot = n2.generators_t.p.copy()
+    to_plot['fuel cell'] = -n2.links_t.p1['fuel cell']  # plot provided power to city as positive
+    to_plot['electrolysis'] = -n2.links_t.p0['electrolysis']  # plot consumed power from wind as negative
+    barplot = to_plot[["Gas", "fuel cell", "Offwind", "electrolysis"]].plot.bar(stacked=True, ax=ax, legend=False)
+
+    # naive plotting does not work: plot and barplot via pandas cause conflicting x-axis
+    # n2.loads_t.p_set.plot(ylabel='MW', ax=ax)
+    ax.plot(barplot.xaxis.major.locator.locs, n2.loads_t.p_set['electricity demand'], color='black', label='electricity demand')
+    ax.set_ylabel('MW')
+    ax.legend(loc=0)
+    fig.savefig('bypass-power.png', bbox_inches='tight')
+
+
 if __name__ == '__main__':
     simulate_pre_bypass()
+    simulate_bypass()
