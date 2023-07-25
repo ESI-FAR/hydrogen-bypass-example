@@ -87,7 +87,7 @@ def plot_pre_bypass_power(n):
     ax.plot(barplot.xaxis.major.locator.locs, n.loads_t.p_set['electricity demand'], label='electricity demand')
     ax.set_ylabel('MW')
     ax.legend(loc=0)
-    fig.savefig('pre-bypass.png', bbox_inches='tight')
+    fig.savefig('pre-bypass-power.png', bbox_inches='tight')
 
 
 def simulate_bypass():
@@ -104,6 +104,7 @@ def plot_bypass_power(n):
     to_plot = n.generators_t.p.copy()
     to_plot['fuel cell'] = -n.links_t.p1['fuel cell']  # plot provided power to city as positive
     to_plot['electrolysis'] = -n.links_t.p0['electrolysis']  # plot consumed power from wind as negative
+    # reorder columns to match calliope
     barplot = to_plot[["Gas", "fuel cell", "Offwind", "electrolysis"]].plot.bar(stacked=True, ax=ax, legend=False)
 
     # naive plotting does not work: plot and barplot via pandas cause conflicting x-axis
