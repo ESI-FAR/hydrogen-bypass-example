@@ -72,7 +72,20 @@ def bypass_network():
     return network
 
 
-n1 = pre_bypass_network()
-n1.optimize(solver_name='glpk')
-n1.generators_t.p.plot.bar(stacked=True)
-plt.savefig('pre-bypass.png', bbox_inches='tight')
+def simulate_pre_bypass():
+    n1 = pre_bypass_network()
+    n1.optimize(solver_name='glpk')
+
+    fig, ax = plt.subplots()
+    barplot = n1.generators_t.p.plot.bar(stacked=True, ax=ax)
+
+    # naive plotting does not work: plot and barplot via pandas cause conflicting x-axis
+    # n1.loads_t.p_set.plot(ylabel='MW', ax=ax)
+    ax.plot(barplot.xaxis.major.locator.locs, n1.loads_t.p_set['electricity demand'], label='electricity demand')
+    ax.set_ylabel('MW')
+    ax.legend(loc=0)
+    fig.savefig('pre-bypass.png', bbox_inches='tight')
+
+
+if __name__ == '__main__':
+    simulate_pre_bypass()
