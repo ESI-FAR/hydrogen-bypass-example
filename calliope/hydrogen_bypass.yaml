@@ -14,7 +14,7 @@ overrides:
 
 model:
     name: 'Hydrogen Bypass model'
-    timeseries_data_path: 'timeseries_data'
+    timeseries_data_path: '../timeseries_data'
 
 
 run:
