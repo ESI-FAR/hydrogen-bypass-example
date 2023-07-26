@@ -59,6 +59,7 @@ py-cpuinfo==9.0.0
 Pygments==2.15.1
 Pyomo==6.4.4
 pyparsing==3.0.9
+pyprojroot==0.3.0
 pypsa==0.25.0
 python-dateutil==2.8.2
 pytz==2023.3
@@ -78,6 +79,7 @@ threadpoolctl==3.2.0
 toolz==0.12.0
 tqdm==4.65.0
 traitlets==5.9.0
+typing_extensions==4.7.1
 urllib3==2.0.4
 validators==0.20.0
 wcwidth==0.2.6

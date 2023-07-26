@@ -23,11 +23,11 @@ In the extended model, usage of the gas power plant is reduced to a minimum, wit
 
 After cloning the repository, it is recommended to create a separate Python environment for each framework.
 Popular examples include Conda, venv/virtualenv and pyenv.
-The relevant dependencies are listed in a `requirements.txt` per framework folder and can be installed as follows:
+The relevant dependencies are listed in a `<FRAMEWORK_NAME>-requirements.txt` per framework folder and can be installed as follows:
 ```bash
-cd FRAMEWORK_NAME
+cd <FRAMEWORK_NAME>
 # activate your favorite (virtual) environment
-pip install -r requirements.txt
+pip install -r <FRAMEWORK_NAME>-requirements.txt
 ```
 
 ### Using a single environment
